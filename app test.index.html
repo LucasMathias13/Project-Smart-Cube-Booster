@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bluetooth Connect</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0;
+  }
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  #status {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div>
+  <button id="connect">Connect to Bluetooth Device</button>
+  <div id="status"></div>
+</div>
+
+<script>
+const button = document.getElementById('connect');
+const status = document.getElementById('status');
+
+button.addEventListener('click', async () => {
+  status.textContent = 'Forsøger at forbinde...';
+  
+  try {
+    const device = await navigator.bluetooth.requestDevice({
+      acceptAllDevices: true
+    });
+    
+    status.textContent = `Forbundet til: ${device.name || 'Ukendt enhed'}`;
+    
+    // Hvis du vil, kan du fortsætte med services og karakteristikker her:
+    // const server = await device.gatt.connect();
+    // ...
+    
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'Forbindelse mislykkedes eller blev afbrudt.';
+  }
+});
+</script>
+
+</body>
+</html>
